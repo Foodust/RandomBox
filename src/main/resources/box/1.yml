@@ -1,0 +1,11 @@
+box:                            # 뽑기 아이템
+  item: ""                      # 아이템 정보
+items:
+  1:                            # 구분 번호
+    type: ""                    # 아이템 정보
+    displayName: ""
+    nbtData:  ""
+    chance: 0.3                 # 확률  1 == 100%, 0.3 == 30%
+  2:
+    item: ""
+    chance: 0.3

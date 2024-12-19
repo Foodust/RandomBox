@@ -4,7 +4,9 @@ import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.Inventory;
 import org.foodust.randomBox.RandomBox;
+import org.foodust.randomBox.data.InventoryData;
 import org.foodust.randomBox.data.ItemData;
 import org.foodust.randomBox.data.TaskData;
 
@@ -46,7 +48,8 @@ public class ConfigModule {
 
     public void initialize() {
         release();
-        getConfigPlayer();
+        getBoxInventory();
+        getRandomBox();
     }
 
     public void release() {
@@ -54,8 +57,15 @@ public class ConfigModule {
         ItemData.release();
     }
 
-    @SneakyThrows
-    public void getConfigPlayer() {
+    public void getBoxInventory() {
+        FileConfiguration config = getConfig("inventory.yml");
+        String inventoryName = config.getString("name");
+        int size = config.getInt("size");
+        InventoryData.baseInventory = Bukkit.createInventory(null, size, inventoryName == null ? "error" : inventoryName);
+    }
+
+    public void getRandomBox() {
+
     }
 
 }

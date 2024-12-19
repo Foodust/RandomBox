@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemData {
-    public static ItemStack DEATH_ITEM = null;
+
+    public static List<Integer> randomBoxHash = new ArrayList<>();
+
     public static List<Entity> ENTITIES = new ArrayList<>();
     public static void release() {
         ENTITIES.forEach(entity -> {
