@@ -1,0 +1,20 @@
+package org.foodust.randomBox.data;
+
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ItemData {
+    public static ItemStack DEATH_ITEM = null;
+    public static List<Entity> ENTITIES = new ArrayList<>();
+    public static void release() {
+        ENTITIES.forEach(entity -> {
+            if (entity != null) {
+                entity.remove();
+            }
+        });
+        ENTITIES.clear();
+    }
+}
