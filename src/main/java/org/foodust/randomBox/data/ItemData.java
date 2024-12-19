@@ -4,13 +4,13 @@ import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItemData {
-
-    public static List<Integer> randomBoxHash = new ArrayList<>();
-
+    public static HashMap<String, ItemStack> randomBox = new HashMap<>();
     public static List<Entity> ENTITIES = new ArrayList<>();
+
     public static void release() {
         ENTITIES.forEach(entity -> {
             if (entity != null) {

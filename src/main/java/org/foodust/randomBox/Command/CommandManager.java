@@ -30,15 +30,10 @@ public class CommandManager implements CommandExecutor {
         } else {
             BaseMessage byBaseMessage = BaseMessage.getByMessage(data[0]);
             switch (byBaseMessage) {
-                case COMMAND_OPEN -> {
-                    commandModule.commandOpen(sender, data);
-                }
-                case COMMAND_SET -> {
-                    commandModule.commandSet(sender,data);
-                }
-                case COMMAND_RELOAD -> {
-                    commandModule.commandReload(sender,data);
-                }
+                case COMMAND_OPEN -> commandModule.commandOpen(sender, data);
+                case COMMAND_GIVE -> commandModule.commandGive(sender,data);
+                case COMMAND_SET -> commandModule.commandSet(sender,data);
+                case COMMAND_RELOAD -> commandModule.commandReload(sender,data);
                 default -> messageModule.sendPlayer(sender, BaseMessage.ERROR_WRONG_COMMAND.getMessage());
             }
         }

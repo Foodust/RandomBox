@@ -1,11 +1,9 @@
 package org.foodust.randomBox.data;
 
-import org.bukkit.inventory.Inventory;
+import org.foodust.randomBox.data.box.BoxInventory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 public class InventoryData {
-    public static List<Inventory> randomBoxInventory = new ArrayList<>();
-    public static Inventory baseInventory = null;
+    public static LinkedHashMap<String, BoxInventory> randomBoxInventory = new LinkedHashMap<>();
 }

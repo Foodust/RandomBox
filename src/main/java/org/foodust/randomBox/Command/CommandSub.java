@@ -11,7 +11,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandSub implements TabCompleter {
-    Set<String> mainSub = EnumSet.range(BaseMessage.COMMAND_SET, BaseMessage.COMMAND_RELOAD).stream().map(BaseMessage::getMessage).collect(Collectors.toSet());
+    Set<String> mainSub = EnumSet.range(BaseMessage.COMMAND_GIVE, BaseMessage.COMMAND_RELOAD).stream().map(BaseMessage::getMessage).collect(Collectors.toSet());
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
