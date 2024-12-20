@@ -13,9 +13,8 @@ import java.util.HashMap;
 @AllArgsConstructor
 public class BoxInventory {
 
-
-
     private Inventory inventory;
 
+    @Builder.Default
     private HashMap<ItemStack, Double> itemChance = new HashMap<>();
 }

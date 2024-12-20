@@ -13,6 +13,8 @@ public enum BaseMessage {
     PREFIX("[RandomBox]"),
     PREFIX_C("<gradient:yellow:blue><bold>[RandomBox]</gradient></bold> "),
 
+    BOX("상자"),
+
     // Command
     COMMAND_RANDOM_BOX("랜덤박스"),
     COMMAND_GIVE("받기"),

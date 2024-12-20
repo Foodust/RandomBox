@@ -7,6 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.foodust.randomBox.BaseMessage;
 import org.foodust.randomBox.RandomBox;
 import org.foodust.randomBox.data.InventoryData;
 import org.foodust.randomBox.data.ItemData;
@@ -22,7 +23,6 @@ public class ConfigModule {
 
     private final MessageModule messageModule;
     private final ItemModule itemModule;
-    @Getter
     private final ItemSerialize itemSerialize;
     private final RandomBox plugin;
 
@@ -89,9 +89,7 @@ public class ConfigModule {
 
             String index = boxConfig.getName().replace(".yml", "");
 
-            Inventory inventory = Bukkit.createInventory(null, size, index);
-            inventory.setItem(size, itemModule.setCustomItem(Material.GREEN_STAINED_GLASS, "저장", 1, 1));
-            inventory.setItem(size - 9, itemModule.setCustomItem(Material.RED_STAINED_GLASS, "취소", 1, 1));
+            Inventory inventory = makeInventory(size, index);
 
             HashMap<ItemStack, Double> chances = new HashMap<>();
 
@@ -115,8 +113,19 @@ public class ConfigModule {
         }
     }
 
+    public Inventory makeInventory(int size, String name) {
+        Inventory inventory = Bukkit.createInventory(null, size, name +"/" + BaseMessage.BOX.getMessage());
+        inventory.setItem(size, itemModule.setCustomItem(Material.GREEN_STAINED_GLASS, "저장", 1, 1));
+        inventory.setItem(size - 9, itemModule.setCustomItem(Material.RED_STAINED_GLASS, "취소", 1, 1));
+        return inventory;
+    }
+
     public void setRandomBox(String index, ItemStack itemStack) {
         String serialized = itemSerialize.serializeItem(itemStack);
-        getConfig("box/" + index + ".yml").set("box.base64." + serialized, true);
+        FileConfiguration config = getConfig("box/" + index + ".yml");
+        config.set("box.base64." + serialized, true);
+        saveConfig(config, "box/" + index + ".yml");
+
+        initialize();
     }
 }

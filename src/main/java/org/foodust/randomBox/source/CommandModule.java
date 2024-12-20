@@ -4,10 +4,13 @@ package org.foodust.randomBox.source;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.foodust.randomBox.BaseMessage;
 import org.foodust.randomBox.RandomBox;
+import org.foodust.randomBox.data.InventoryData;
 import org.foodust.randomBox.data.ItemData;
+import org.foodust.randomBox.data.box.BoxInventory;
 
 public class CommandModule {
 
@@ -27,6 +30,13 @@ public class CommandModule {
         if (data.length <= 1) {
             messageModule.sendPlayer(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
             return;
+        }
+        String index = data[1];
+        BoxInventory boxInventory = InventoryData.randomBoxInventory.get(index);
+        if (boxInventory == null) {
+            player.openInventory(configModule.makeInventory(54, index));
+        } else {
+            player.openInventory(boxInventory.getInventory());
         }
     }
 

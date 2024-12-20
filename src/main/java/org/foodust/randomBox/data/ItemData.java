@@ -12,6 +12,7 @@ public class ItemData {
     public static List<Entity> ENTITIES = new ArrayList<>();
 
     public static void release() {
+        randomBox.clear();
         ENTITIES.forEach(entity -> {
             if (entity != null) {
                 entity.remove();
