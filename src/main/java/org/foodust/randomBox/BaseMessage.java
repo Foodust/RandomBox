@@ -24,7 +24,10 @@ public enum BaseMessage {
     COMMAND_RELOAD("리로드"),
 
     INFO_RELOAD("리로드 되었습니다."),
+    INFO_SAVE_BOX("번 상자 저장 되었습니다."),
+    INFO_CHANGE_YML("확률은 yml에 설정후 /랜덤박스 리로드  를 해주세요"),
     INFO_SET_RANDOM_BOX("랜덤 박스가 지정되었습니다."),
+    INFO_GET_ITEM("아이템을 획득했습니다."),
 
     INFO_COMMAND_DEFAULT(
             """

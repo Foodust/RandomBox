@@ -23,6 +23,7 @@ public class ConfigModule {
 
     private final MessageModule messageModule;
     private final ItemModule itemModule;
+    @Getter
     private final ItemSerialize itemSerialize;
     private final RandomBox plugin;
 
@@ -114,10 +115,18 @@ public class ConfigModule {
     }
 
     public Inventory makeInventory(int size, String name) {
-        Inventory inventory = Bukkit.createInventory(null, size, name +"/" + BaseMessage.BOX.getMessage());
+        Inventory inventory = Bukkit.createInventory(null, size, name + "/" + BaseMessage.BOX.getMessage());
         inventory.setItem(size, itemModule.setCustomItem(Material.GREEN_STAINED_GLASS, "저장", 1, 1));
         inventory.setItem(size - 9, itemModule.setCustomItem(Material.RED_STAINED_GLASS, "취소", 1, 1));
         return inventory;
+    }
+
+    public void saveRandomBoxItem(String index, String itemIndex, ItemStack itemStack) {
+        String serialized = itemSerialize.serializeItem(itemStack);
+        FileConfiguration config = getConfig("box/" + index + ".yml");
+        config.set("items." + itemIndex + "base64." + serialized, true);
+        config.set("items." + itemIndex + "chance." + 0.0, true);
+        saveConfig(config, "box/" + index + ".yml");
     }
 
     public void setRandomBox(String index, ItemStack itemStack) {
