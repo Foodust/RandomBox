@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.foodust.randomBox.Command.CommandManager;
 import org.foodust.randomBox.Event.EventManager;
+import org.foodust.randomBox.source.ConfigModule;
 
 import java.util.logging.Logger;
 
@@ -33,6 +34,7 @@ public final class RandomBox extends JavaPlugin {
         CommandManager commandManager = new CommandManager(this);
         // event init
         EventManager eventManager = new EventManager(getServer(), this);
+        new ConfigModule(this).initialize();
     }
 
     @Override

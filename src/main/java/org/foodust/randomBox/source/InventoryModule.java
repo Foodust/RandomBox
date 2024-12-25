@@ -11,6 +11,7 @@ import org.foodust.randomBox.data.InventoryData;
 import org.foodust.randomBox.data.ItemData;
 import org.foodust.randomBox.data.box.BoxInventory;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public class InventoryModule {
         if (!(event.getWhoClicked() instanceof Player player)) return;
 
         String[] split = event.getView().getTitle().split("/");
-        if (split.length <= 2) return;
+        if (split.length < 2) return;
         String index = split[0];
         if (!Objects.equals(split[1], BaseMessage.BOX.getMessage())) return;
         if (event.getSlot() == 45) {
@@ -38,17 +39,19 @@ public class InventoryModule {
             player.closeInventory();
             return;
         }
-        if (event.getSlot() == 54) {
+        if (event.getSlot() == 53) {
             event.setCancelled(true);
             Inventory clickedInventory = event.getClickedInventory();
             if (clickedInventory == null) return;
-            for (int i = 0; i < clickedInventory.getSize() - 10; i++) {
+            configModule.removeRandomBoxItem(index);
+            for (int i = 0; i < clickedInventory.getSize() - 9; i++) {
                 ItemStack item = clickedInventory.getItem(i);
+                if (item == null) continue;
                 configModule.saveRandomBoxItem(index, String.valueOf(i), item);
             }
             player.closeInventory();
-            messageModule.sendPlayer(player, index + BaseMessage.INFO_SAVE_BOX.getMessage());
-            messageModule.sendPlayer(player, BaseMessage.INFO_CHANGE_YML.getMessage());
+            messageModule.sendPlayerC(player, index + BaseMessage.INFO_SAVE_BOX.getMessage());
+            messageModule.sendPlayerC(player, BaseMessage.INFO_CHANGE_YML.getMessage());
             configModule.initialize();
         }
     }
@@ -56,20 +59,25 @@ public class InventoryModule {
     public void interactRandomBox(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
-        ItemData.randomBox.entrySet().stream().filter(entry -> entry.getValue().equals(itemInMainHand)).findFirst().ifPresent(entry -> {
-            BoxInventory boxInventory = InventoryData.randomBoxInventory.get(entry.getKey());
-            Optional.ofNullable(boxInventory.getRandomItem()).ifPresent(randomItem -> {
-                if (itemInMainHand.getAmount() > 1) {
-                    itemInMainHand.setAmount(itemInMainHand.getAmount() - 1);
-                } else {
-                    player.getInventory().removeItem(itemInMainHand);
-                }
-                player.getInventory().addItem(randomItem);
+        for (Map.Entry<String, ItemStack> stringItemStackEntry : ItemData.randomBox.entrySet()) {
+            ItemStack item = stringItemStackEntry.getValue();
+            if (item.getItemMeta() == null) continue;
+            if (item.getItemMeta().equals(itemInMainHand.getItemMeta())) {
+                BoxInventory boxInventory = InventoryData.randomBoxInventory.get(stringItemStackEntry.getKey());
+                Optional.ofNullable(boxInventory.getRandomItem()).ifPresent(randomItem -> {
+                    if (itemInMainHand.getAmount() > 1) {
+                        itemInMainHand.setAmount(itemInMainHand.getAmount() - 1);
+                    } else {
+                        player.getInventory().removeItem(itemInMainHand);
+                    }
+                    player.getInventory().addItem(randomItem);
 
-                String displayName = randomItem.getItemMeta() == null ? "" : randomItem.getItemMeta().getDisplayName();
-                messageModule.sendPlayerActionBar(player, displayName + BaseMessage.INFO_GET_ITEM.getMessage());
-            });
-        });
+                    String displayName = randomItem.getItemMeta() == null ? "" : randomItem.getItemMeta().getDisplayName();
+                    messageModule.sendPlayerActionBar(player, displayName + BaseMessage.INFO_GET_ITEM.getMessage());
+                });
+                break;
+            }
+        }
     }
 
 }

@@ -27,13 +27,14 @@ public class CommandModule {
 
     public void commandOpen(CommandSender sender, String[] data) {
         if (!(sender instanceof Player player)) return;
-        if (data.length <= 1) {
-            messageModule.sendPlayer(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
+        if (data.length < 2) {
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
             return;
         }
         String index = data[1];
         BoxInventory boxInventory = InventoryData.randomBoxInventory.get(index);
         if (boxInventory == null) {
+            messageModule.sendPlayerC(player, BaseMessage.INFO_NO_INVENTORY_MAKE_INVENTORY.getMessage());
             player.openInventory(configModule.makeInventory(54, index));
         } else {
             player.openInventory(boxInventory.getInventory());
@@ -42,35 +43,50 @@ public class CommandModule {
 
     public void commandGive(CommandSender sender, String[] data) {
         if (!(sender instanceof Player player)) return;
-
-        String index = data[1];
-        ItemStack itemStack = ItemData.randomBox.get(index);
-        if (itemStack == null) {
-            messageModule.sendPlayer(player, BaseMessage.ERROR_WRONG_NUMBER.getMessage());
+        if (data.length < 3) {
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
             return;
         }
-        player.getInventory().addItem(itemStack);
+        String index = data[1];
+        String count = data[2];
+        ItemStack itemStack = ItemData.randomBox.get(index);
+        if (itemStack == null) {
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_WRONG_NUMBER.getMessage());
+            return;
+        }
+        for (int i = 0; i < Integer.parseInt(count); i++) {
+            player.getInventory().addItem(itemStack);
+        }
     }
 
     public void commandSet(CommandSender sender, String[] data) {
         if (!(sender instanceof Player player)) return;
-        if (data.length <= 1) {
-            messageModule.sendPlayer(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
+        if (data.length < 2) {
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
             return;
         }
         String index = data[1];
-
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
         if (itemInMainHand.getType() == Material.AIR) {
-            messageModule.sendPlayer(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
             return;
         }
         configModule.setRandomBox(index, itemInMainHand);
-        messageModule.sendPlayer(player, index + " " + BaseMessage.INFO_SET_RANDOM_BOX.getMessage());
+        messageModule.sendPlayerC(player, index + " " + BaseMessage.INFO_SET_RANDOM_BOX.getMessage());
     }
 
     public void commandReload(CommandSender sender, String[] data) {
         configModule.initialize();
-        messageModule.sendPlayer(sender, BaseMessage.INFO_RELOAD.getMessage());
+        messageModule.sendPlayerC(sender, BaseMessage.INFO_RELOAD.getMessage());
+    }
+
+    public void commandRemove(CommandSender sender, String[] data) {
+        if (!(sender instanceof Player player)) return;
+        if (data.length < 2) {
+            messageModule.sendPlayerC(player, BaseMessage.ERROR_ADD_NUMBER.getMessage());
+            return;
+        }
+        configModule.removeRandomBox(player, data[1]);
+        configModule.initialize();
     }
 }
