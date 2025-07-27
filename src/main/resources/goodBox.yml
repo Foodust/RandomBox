@@ -1,0 +1,12 @@
+1:
+  name: "pc방 입장권"
+  chance: 30
+  command: "iagive %playerName% clp:donate_1 1 silent"
+2:
+  name: "철 10개"
+  chance: 10
+  command: ""
+3:
+  name: "다이아몬드 2개"
+  chance: 10
+  command: ""

@@ -11,13 +11,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CommandSub implements TabCompleter {
-    Set<String> mainSub = EnumSet.range(BaseMessage.COMMAND_GIVE, BaseMessage.COMMAND_RELOAD).stream().map(BaseMessage::getMessage).collect(Collectors.toSet());
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            StringUtil.copyPartialMatches(args[0], mainSub, completions);
+            completions.add(BaseMessage.COMMAND_OPEN.getMessage());
+            completions.add(BaseMessage.COMMAND_RELOAD.getMessage());
+        }
+        if (args.length == 2) {
+            completions.add(BaseMessage.COMMAND_GOOD.getMessage());
+            completions.add(BaseMessage.COMMAND_BAD.getMessage());
+            completions.add(BaseMessage.COMMAND_BIG_BAD.getMessage());
+            completions.add(BaseMessage.COMMAND_BIG_GOOD.getMessage());
         }
         Collections.sort(completions);
         return completions;

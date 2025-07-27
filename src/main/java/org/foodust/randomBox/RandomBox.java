@@ -1,35 +1,33 @@
 package org.foodust.randomBox;
 
 import lombok.Getter;
-import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.foodust.randomBox.Command.CommandManager;
 import org.foodust.randomBox.Event.EventManager;
+import org.foodust.randomBox.module.BoxManager;
+import org.foodust.randomBox.module.FunctionModule;
 import org.foodust.randomBox.source.ConfigModule;
 
 import java.util.logging.Logger;
 
 @Getter
 public final class RandomBox extends JavaPlugin {
-    private BukkitAudiences adventure;
     private Plugin plugin;
     private Logger log;
 
-    public @NonNull BukkitAudiences adventure() {
-        if (this.adventure == null) {
-            throw new IllegalStateException("Tried to access Adventure when the plugin was disabled!");
-        }
-        return this.adventure;
-    }
-
+    private ConfigModule configModule;
+    private BoxManager boxManager;
+    private FunctionModule functionModule;
     @Override
     public void onEnable() {
         // Plugin startup logic
         this.log = getLogger();
         this.plugin = this;
-        this.adventure = BukkitAudiences.create(this);
+
+        this.functionModule = new FunctionModule(this);
+        this.boxManager = new BoxManager(this);
+        this.configModule = new ConfigModule(this);
 
         CommandManager commandManager = new CommandManager(this);
         // event init
@@ -39,10 +37,5 @@ public final class RandomBox extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
-        if (this.adventure != null) {
-            this.adventure.close();
-            this.adventure = null;
-        }
-    }
+   }
 }
