@@ -115,7 +115,7 @@ public class ConfigModule {
                                 itemIndex++;
                             }
                         } catch (Exception e) {
-                            messageModule.logInfo("Error processing item: " + number);
+                            messageModule.logInfo("Error processing item: " + number + e.getMessage());
                         }
                     }
                 }

@@ -59,11 +59,17 @@ public class InventoryModule {
     public void interactRandomBox(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        if (itemInMainHand.getType().isAir()) return;
+        
         for (Map.Entry<String, ItemStack> stringItemStackEntry : ItemData.randomBox.entrySet()) {
             ItemStack item = stringItemStackEntry.getValue();
-            if (item.getItemMeta() == null) continue;
-            if (item.getItemMeta().equals(itemInMainHand.getItemMeta())) {
+            if (item == null) continue;
+            
+            // Check if both items are the same type and have matching meta
+            if (item.isSimilar(itemInMainHand)) {
                 BoxInventory boxInventory = InventoryData.randomBoxInventory.get(stringItemStackEntry.getKey());
+                if (boxInventory == null) continue;
+                
                 Optional.ofNullable(boxInventory.getRandomItem()).ifPresent(randomItem -> {
                     if (itemInMainHand.getAmount() > 1) {
                         itemInMainHand.setAmount(itemInMainHand.getAmount() - 1);
@@ -71,9 +77,6 @@ public class InventoryModule {
                         player.getInventory().removeItem(itemInMainHand);
                     }
                     player.getInventory().addItem(randomItem);
-
-                    String displayName = randomItem.getItemMeta() == null ? "" : randomItem.getItemMeta().getDisplayName();
-                    messageModule.sendPlayerActionBar(player, displayName + BaseMessage.INFO_GET_ITEM.getMessage());
                 });
                 break;
             }
