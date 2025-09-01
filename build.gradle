@@ -15,6 +15,10 @@ repositories {
         name = "sonatype"
         url = "https://oss.sonatype.org/content/groups/public/"
     }
+    maven {
+        name = "mailBox"
+        url = "https://jitpack.io"
+    }
     flatDir {
         dirs 'libs'
     }
@@ -28,6 +32,7 @@ dependencies {
     implementation "net.kyori:adventure-platform-bukkit:4.3.2"
     implementation "net.kyori:adventure-text-minimessage:4.17.0"
 
+    compileOnly 'com.github.Foodust:MailBoxPlugin:1.2-SNAPSHOT'
     compileOnly "org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT"
 }
 def targetJavaVersion = 21

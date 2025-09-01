@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.foodust.mailBoxPlugin.api.MailBoxAPI;
 import org.foodust.randomBox.BaseMessage;
 import org.foodust.randomBox.RandomBox;
 import org.foodust.randomBox.data.InventoryData;
@@ -55,7 +56,8 @@ public class CommandModule {
             return;
         }
         for (int i = 0; i < Integer.parseInt(count); i++) {
-            player.getInventory().addItem(itemStack);
+            MailBoxAPI.getInstance().sendItem(player, itemStack);
+//            player.getInventory().addItem(itemStack);
         }
     }
 
