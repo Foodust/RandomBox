@@ -68,7 +68,11 @@ public class InventoryModule {
             if (item == null) continue;
             
             // Check if both items are the same type and have matching meta
-            if (item.isSimilar(itemInMainHand)) {
+            if (item.isSimilar(itemInMainHand) ) {
+                if(player.getInventory().firstEmpty() == -1) {
+                    player.sendMessage("인벤토리의 빈 공간이 없습니다.");
+                    return;
+                }
                 BoxInventory boxInventory = InventoryData.randomBoxInventory.get(stringItemStackEntry.getKey());
                 if (boxInventory == null) continue;
                 

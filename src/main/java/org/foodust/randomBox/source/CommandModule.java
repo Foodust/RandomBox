@@ -57,7 +57,7 @@ public class CommandModule {
             return;
         }
         for (int i = 0; i < Integer.parseInt(count); i++) {
-            MailBoxAPI.getInstance().sendItem(player, itemStack);
+            MailBoxAPI.getInstance().sendItemAsync(player.getUniqueId(), itemStack);
 //            player.getInventory().addItem(itemStack);
         }
     }
