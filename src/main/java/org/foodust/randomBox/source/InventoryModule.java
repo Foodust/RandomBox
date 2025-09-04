@@ -20,11 +20,13 @@ public class InventoryModule {
     private final RandomBox plugin;
     private final MessageModule messageModule;
     private final ConfigModule configModule;
+    private final SoundModule soundModule;
 
     public InventoryModule(RandomBox plugin) {
         this.plugin = plugin;
         this.configModule = new ConfigModule(plugin);
         this.messageModule = new MessageModule(plugin);
+        this.soundModule = new SoundModule();
     }
 
     public void clickMakeBoxInventory(InventoryClickEvent event) {
@@ -77,6 +79,8 @@ public class InventoryModule {
                         player.getInventory().removeItem(itemInMainHand);
                     }
                     player.getInventory().addItem(randomItem);
+                    // Play sound when opening random box
+                    soundModule.playSound(player);
                 });
                 break;
             }

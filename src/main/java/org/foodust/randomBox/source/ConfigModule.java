@@ -13,6 +13,7 @@ import org.foodust.randomBox.BaseMessage;
 import org.foodust.randomBox.RandomBox;
 import org.foodust.randomBox.data.InventoryData;
 import org.foodust.randomBox.data.ItemData;
+import org.foodust.randomBox.data.SoundData;
 import org.foodust.randomBox.data.TaskData;
 import org.foodust.randomBox.data.box.BoxInventory;
 
@@ -64,6 +65,9 @@ public class ConfigModule {
     public void initialize() {
         release();
 
+        // Load sound configuration from config.yml
+        loadSoundConfig();
+
         File boxDirectory = new File(plugin.getDataFolder(), "box");
         // box 디렉토리가 없다면 생성
         if (!boxDirectory.exists()) {
@@ -81,6 +85,24 @@ public class ConfigModule {
     public void release() {
         TaskData.release();
         ItemData.release();
+        SoundData.release();
+    }
+
+    public void loadSoundConfig() {
+        FileConfiguration config = getConfig("config.yml");
+
+        if (config.contains("sound")) {
+            String soundName = config.getString("sound.name", "clp_randombox");
+            float volume = (float) config.getDouble("sound.volume", 1.0);
+            float pitch = (float) config.getDouble("sound.pitch", 1.0);
+
+            SoundData soundData = SoundData.builder().name(soundName).volume(volume).pitch(pitch).build();
+            SoundData.setSoundConfig(soundData);
+        } else {
+            // Set default sound configuration if not present in config
+            SoundData soundData = SoundData.builder().name("clp_randombox").volume(1.0f).pitch(1.0f).build();
+            SoundData.setSoundConfig(soundData);
+        }
     }
 
     public void getRandomBox(File[] files) {

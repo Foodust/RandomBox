@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/D:\\JetBrain\\git\\RandomBox\\src\\main\\resources/**)",
+      "Read(/D:\\JetBrain\\git\\RandomBox\\src\\main\\java\\org\\foodust\\randomBox\\source/**)",
+      "Read(/D:\\JetBrain\\git\\RandomBox\\src\\main\\java\\org\\foodust\\randomBox/**)",
+      "Read(/D:\\JetBrain\\git\\RandomBox\\src\\main\\java\\org\\foodust\\randomBox\\Event/**)",
+      "Read(/D:\\JetBrain\\git\\RandomBox\\src\\main\\java\\org\\foodust\\randomBox\\source/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
