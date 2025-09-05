@@ -26,7 +26,6 @@ public class CommandManager implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] data) {
-        if (!sender.isOp()) return false;
         if (data.length == 0) {
             sender.sendMessage(BaseMessage.INFO_COMMAND_DEFAULT.getMessage());
         } else {
